@@ -26,8 +26,8 @@ native window, and every evaluation comes from Stockfish running on your own
 machine, with no analysis server and no upload.
 
 ChessLab is a GPL-3.0 fork of [En Croissant](https://github.com/franciscoBSalgueiro/en-croissant),
-extended with coaching arrows, threat display, human-like engine strength and a
-floating analysis board.
+extended with coach mode, board-level threat arrows, human-like engine strength
+and a floating analysis board.
 
 ## Features
 
