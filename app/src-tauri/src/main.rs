@@ -19,7 +19,7 @@ mod progress;
 mod puzzle;
 mod sound;
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 
 use chess::{BestMovesPayload, EngineProcess};
@@ -98,6 +98,25 @@ async fn close_splashscreen(window: Window) -> Result<(), String> {
         .show()
         .unwrap();
     Ok(())
+}
+
+/// Resolves the bundled aixchess DuckDB extension for every layout Tauri can
+/// produce. macOS and Windows keep it beside the other resources, the deb and
+/// rpm packages install it under `usr/lib/chesslab`, and AppImages need
+/// `usr/libexec/chesslab` because linuxdeploy rewrites ELF files under usr/lib
+/// and disturbs DuckDB's footer.
+fn resolve_aixchess_extension_path(resource_dir: &Path) -> PathBuf {
+    let candidates = [
+        resource_dir.join("aixchess.duckdb_extension"),
+        resource_dir.join("../chesslab/aixchess.duckdb_extension"),
+        resource_dir.join("../../libexec/chesslab/aixchess.duckdb_extension"),
+    ];
+
+    candidates
+        .iter()
+        .find(|path| path.is_file())
+        .cloned()
+        .unwrap_or_else(|| candidates[0].clone())
 }
 
 pub fn file_from_args(args: &[String], cwd: &str) -> Option<String> {
@@ -261,14 +280,13 @@ fn main() {
                 .path()
                 .resource_dir()
                 .expect("failed to resolve application resource directory");
-            let aixchess_extension_path = resource_dir.join("aixchess.duckdb_extension");
-            // linuxdeploy rewrites ELF files under usr/lib, disturbing DuckDB's footer.
-            #[cfg(target_os = "linux")]
-            let aixchess_extension_path = if aixchess_extension_path.is_file() {
-                aixchess_extension_path
-            } else {
-                resource_dir.join("../../libexec/chesslab/aixchess.duckdb_extension")
-            };
+            let aixchess_extension_path = resolve_aixchess_extension_path(&resource_dir);
+            if !aixchess_extension_path.is_file() {
+                log::warn!(
+                    "aixchess extension not found ({}); database features will be unavailable",
+                    aixchess_extension_path.display()
+                );
+            }
             let state = app.state::<AppState>();
             *state
                 .aixchess_extension_path
