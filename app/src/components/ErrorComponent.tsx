@@ -57,7 +57,7 @@ export default function ErrorComponent({ error }: { error: unknown }) {
           i18nKey="Error.ReportIssue"
           components={{
             github: (
-              <Anchor href="https://github.com/MaxEdgar/ChessLab/issues/new" target="_blank" />
+              <Anchor href="https://github.com/Cuteesy/ChessLab/issues/new" target="_blank" />
             ),
             discord: <Anchor href="https://discord.com/invite/tdYzfDbSSW" target="_blank" />,
           }}

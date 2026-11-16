@@ -1,7 +1,7 @@
 import { getVersion } from "@tauri-apps/api/app";
 
 const APP_NAME = "ChessLab";
-const APP_REPO = "https://github.com/MaxEdgar/ChessLab";
+const APP_REPO = "https://github.com/Cuteesy/ChessLab";
 
 let userAgent = APP_NAME;
 
