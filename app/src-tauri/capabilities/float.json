@@ -1,0 +1,12 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "float-capability",
+  "description": "Capability for the always-on-top floating board window",
+  "windows": ["float"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-close",
+    "core:window:allow-start-dragging",
+    "log:default"
+  ]
+}

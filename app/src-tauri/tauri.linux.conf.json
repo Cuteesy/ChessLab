@@ -1,0 +1,24 @@
+{
+  "bundle": {
+    "resources": {
+      "../aixchess.duckdb_extension": null
+    },
+    "linux": {
+      "appimage": {
+        "files": {
+          "/usr/libexec/chesslab/aixchess.duckdb_extension": "../aixchess.duckdb_extension"
+        }
+      },
+      "deb": {
+        "files": {
+          "/usr/lib/chesslab/aixchess.duckdb_extension": "../aixchess.duckdb_extension"
+        }
+      },
+      "rpm": {
+        "files": {
+          "/usr/lib/chesslab/aixchess.duckdb_extension": "../aixchess.duckdb_extension"
+        }
+      }
+    }
+  }
+}

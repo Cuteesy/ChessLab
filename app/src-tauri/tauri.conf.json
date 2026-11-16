@@ -1,0 +1,89 @@
+{
+  "bundle": {
+    "active": true,
+    "category": "BoardGame",
+    "copyright": "",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "linux": {
+      "deb": {
+        "depends": []
+      },
+      "appimage": {
+        "bundleMediaFramework": true
+      }
+    },
+    "publisher": "ChessLab contributors",
+    "shortDescription": "Stockfish-powered chess analysis",
+    "longDescription": "",
+    "macOS": {
+      "entitlements": "Entitlements.plist",
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": "-"
+    },
+    "resources": {
+      "../sound/": "sound/",
+      "../aixchess.duckdb_extension": "aixchess.duckdb_extension",
+      "resources/vision/": "vision/"
+    },
+    "targets": "all"
+  },
+  "build": {
+    "beforeDevCommand": "corepack pnpm prepare:aix-extension && corepack pnpm start-vite",
+    "beforeBuildCommand": "corepack pnpm prepare:aix-extension && corepack pnpm build-vite",
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420"
+  },
+  "productName": "ChessLab",
+  "mainBinaryName": "chesslab",
+  "identifier": "org.chesslab.app",
+  "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": [
+          "chesslab"
+        ]
+      }
+    },
+    "cli": {
+      "args": [
+        {
+          "name": "file",
+          "index": 1,
+          "takesValue": true
+        }
+      ]
+    }
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "title": "ChessLab",
+        "visible": false,
+        "decorations": true
+      }
+    ],
+    "security": {
+      "assetProtocol": {
+        "scope": [
+          "**"
+        ],
+        "enable": true
+      },
+      "csp": null
+    }
+  }
+}

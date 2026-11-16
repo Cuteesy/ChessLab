@@ -1,35 +1,17 @@
-# Byte-compiled / cache
+# Local upstream reference clone; not part of this repository's source.
+.upstream/
+
+# Legacy Python artifacts.
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-
-# Distribution / packaging
-build/
-dist/
 *.egg-info/
-.eggs/
-
-# Virtual environments
 .venv/
 venv/
-env/
+.install.log
 
-# Editors / OS
-.vscode/
-.idea/
-*.swp
-.DS_Store
-Thumbs.db
+# Temporary Rust verification logs.
+app/src-tauri/.cargo-check.log
+app/src-tauri/.cargo-check.exit
 
-# App runtime data (logs, settings) — user-machine specific
-*.log
-chesslab.log
-
-# Test artifacts
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Local scratch
-*.pgn.bak
+# CI build downloads (not source).
+artifacts/
