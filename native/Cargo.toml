@@ -1,0 +1,9 @@
+[package]
+name = "chesslab-native"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.105"
+eframe = { version = "0.37.0", default-features = false, features = ["glow", "default_fonts", "x11", "wayland"] }
+shakmaty = "0.30.3"

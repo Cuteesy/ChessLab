@@ -1,0 +1,61 @@
+name: build-native
+
+on:
+  push:
+    branches: [rust-ui]
+    paths:
+      - "native/**"
+      - ".github/workflows/build-native.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install windowing dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential pkg-config cmake \
+            libx11-dev libxcursor-dev libxrandr-dev libxi-dev \
+            libxkbcommon-dev libwayland-dev libgl1-mesa-dev
+          df -h /
+
+      - name: Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust build
+        continue-on-error: true
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: native -> target
+          cache-on-failure: true
+
+      - name: Build native binary
+        run: cargo build --release --manifest-path native/Cargo.toml
+
+      - name: Test engine parser
+        run: cargo test --release --manifest-path native/Cargo.toml
+
+      - name: Report binary
+        run: |
+          set -euo pipefail
+          ls -la native/target/release/chesslab-native
+          file native/target/release/chesslab-native
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: chesslab-native-linux
+          path: native/target/release/chesslab-native
+          if-no-files-found: error
+          retention-days: 14

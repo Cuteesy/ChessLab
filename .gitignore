@@ -15,3 +15,4 @@ app/src-tauri/.cargo-check.exit
 
 # CI build downloads (not source).
 artifacts/
+native/target/
